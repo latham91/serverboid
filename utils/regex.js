@@ -1,5 +1,5 @@
 export const chatLineRegex =
-  /\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})\]\[\w+\] Got message:ChatMessage\{chat=(\w+), author='([^']+)', text='([^']+)'\}\./;
+  /\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})\]\[\w+\] Got message:ChatMessage\{chat=([^,]+), author='([^']+)', text='([^']+)'\}\./;
 
 export const connectionRegex =
   /\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})\] \[(\d+)\]\[(\w+)\]\[(\d+,\d+,\d+)\]\[(\w+)\]\[([\w\s]+: \d+)\]\./;
