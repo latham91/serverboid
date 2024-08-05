@@ -1,6 +1,6 @@
 import chalk from "chalk";
 
-import { tailFile, getFullPath, waitForFile, createSimpleEmbed } from "../../utils/utils.js";
+import { tailFile, getFullPath, waitForFile, createSimpleEmbed } from "../utils/utils.js";
 
 export default function watchAdminLog(client) {
   const adminLogPath = getFullPath("logs", "_admin.txt");

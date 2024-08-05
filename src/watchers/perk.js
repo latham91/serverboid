@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import { EmbedBuilder } from "discord.js";
 
-import { convertTimestamp, getFullPath, tailFile, waitForFile } from "../../utils/utils.js";
-import { connectionRegex, perkLineRegex } from "../../utils/regex.js";
+import { convertTimestamp, getFullPath, tailFile, waitForFile } from "../utils/utils.js";
+import { connectionRegex, perkLineRegex } from "../utils/regex.js";
 
 export default function watchPerkLog(client) {
   const start = () => {

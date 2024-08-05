@@ -1,14 +1,7 @@
 import chalk from "chalk";
 
-import {
-  tailFile,
-  getFullPath,
-  convertTimestamp,
-  createSimpleEmbed,
-  getChatColors,
-  waitForFile,
-} from "../../utils/utils.js";
-import { chatLineRegex } from "../../utils/regex.js";
+import { tailFile, getFullPath, getChatColors, createSimpleEmbed, waitForFile, convertTimestamp } from "../utils/utils.js";
+import { chatLineRegex } from "../utils/regex.js";
 
 const excludedWords = ["HEY!", "OVER HERE!", "HEY YOU!", "HEY !", "PAR ICI !", "HEY TOI !"];
 
