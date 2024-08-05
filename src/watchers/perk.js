@@ -5,15 +5,16 @@ import { convertTimestamp, getFullPath, tailFile, waitForFile } from "../utils/u
 import { connectionRegex, perkLineRegex } from "../utils/regex.js";
 
 export default function watchPerkLog(client) {
+  const pathResolver = () => getFullPath("logs", "_PerkLog.txt");
+
+  // Start watching the perk log file
   const start = () => {
     const perkLogPath = getFullPath("logs", "_PerkLog.txt");
-
-    // Start watching the perk log file
     const tail = tailFile(perkLogPath);
 
-    // Listen for new lines
+    // Listen for new lines added to the bottom of the file.
     tail.on("line", async (line) => {
-      console.log(line);
+      // Player connection to server
       if (line.includes("[Login]")) {
         const parsedLine = line.match(connectionRegex);
 
@@ -41,6 +42,7 @@ export default function watchPerkLog(client) {
         const channel = await client.channels.fetch(channelId);
         if (!channel) return console.log(chalk.redBright("Failed to get channel with ID: ", channelId));
 
+        // Sends embed message to the discord channel
         try {
           await channel.send({ embeds: [messageEmbed] });
         } catch (error) {
@@ -48,6 +50,7 @@ export default function watchPerkLog(client) {
         }
       }
 
+      // Player skill level change
       if (line.includes("[Level Changed")) {
         const parsedLine = line.match(perkLineRegex);
 
@@ -91,6 +94,7 @@ export default function watchPerkLog(client) {
         const channel = await client.channels.fetch(channelId);
         if (!channel) return console.log(chalk.redBright("Failed to get channel with ID: ", channelId));
 
+        // Sends embed message to the discord channel
         try {
           await channel.send({ embeds: [messageEmbed] });
         } catch (error) {
@@ -99,6 +103,8 @@ export default function watchPerkLog(client) {
       }
     });
 
+    // Error usually occurs when the file is deleted or doesnt exist yet.
+    // Stop watching and wait for the file to be created.
     tail.on("error", (error) => {
       console.log(chalk.bgRed.white.bold("Error watching perk log file: ", error));
       tail.unwatch();
@@ -110,8 +116,6 @@ export default function watchPerkLog(client) {
     console.log(chalk.white.bold("Watching perk log file...OK!"));
   };
 
-  const pathResolver = () => getFullPath("logs", "_PerkLog.txt");
-
-  // Wait for the chat log file to be created
+  // If the log file doesn't exist yet (ie. server restart), this function keeps re-checking every 1 second before calling the start func
   waitForFile(pathResolver, 1000).then(start);
 }

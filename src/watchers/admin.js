@@ -1,5 +1,4 @@
 import chalk from "chalk";
-
 import { tailFile, getFullPath, waitForFile, createSimpleEmbed } from "../utils/utils.js";
 
 export default function watchAdminLog(client) {
@@ -8,15 +7,18 @@ export default function watchAdminLog(client) {
 
   if (!channelId) return console.log(chalk.redBright("ADMINLOG_CHANNEL_ID is not defined in your environmental variables."));
 
+  // Resolver function that returns the full path of the log file.
   const pathResolver = () => getFullPath("logs", "_admin.txt");
 
   const start = () => {
     const tail = tailFile(adminLogPath);
 
+    // Listen for new lines added to the bottom of the file.
     tail.on("line", async (line) => {
       const channel = await client.channels.fetch(channelId);
       if (!channel) return console.log(chalk.redBright(`Failed to get channel with ID: ${channelId}`));
 
+      // Send embed message to the discord channel.
       try {
         const messageEmbed = createSimpleEmbed("Admin Log", line, "#ff0000");
         await channel.send({ embeds: [messageEmbed] });
@@ -25,6 +27,8 @@ export default function watchAdminLog(client) {
       }
     });
 
+    // Error usually occurs when the file is deleted or doesnt exist yet.
+    // Stop watching and wait for the file to be created.
     tail.on("error", (error) => {
       console.log(chalk.bgRed.white.bold("Error watching admin log file: ", error));
       tail.unwatch();
