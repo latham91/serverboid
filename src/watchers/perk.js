@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { EmbedBuilder, time } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { convertTimestamp, getFullPath, tailFile, waitForFile } from "../../utils/utils.js";
 import { connectionRegex, perkLineRegex } from "../../utils/regex.js";
@@ -24,12 +24,12 @@ export default function watchPerkLog(client) {
           .setColor("#00ff00")
           .setTitle("🖥️ Player Connected")
           .addFields(
-            { name: "Character", value: characterName, inline: true },
+            { name: "Character:", value: characterName, inline: true },
             { name: "\u200B", value: "\u200B", inline: false },
-            { name: "Steam ID", value: steamId, inline: true },
-            { name: "Coords", value: coords, inline: true },
+            { name: "Steam ID:", value: steamId, inline: true },
+            { name: "Coords:", value: coords, inline: true },
             { name: "\u200B", value: "\u200B", inline: false },
-            { name: "Hours Survived", value: hoursSurvived, inline: true },
+            { name: "Hours Survived:", value: hoursSurvived, inline: true },
             { name: "\u200B", value: "\u200B", inline: false }
           )
           .setFooter({ text: timestamp });
@@ -60,27 +60,27 @@ export default function watchPerkLog(client) {
           .setColor("#00b4d8")
           .setTitle("📈 Skill Level Changed")
           .addFields(
-            { name: "Character", value: characterName, inline: true },
+            { name: "Character:", value: characterName, inline: true },
             {
               name: "\u200B \u200B",
               value: "\u200B \u200B",
               inline: true,
             },
-            { name: "Steam ID", value: steamId, inline: true },
-            { name: "Skill", value: skill, inline: true },
+            { name: "Steam ID:", value: steamId, inline: true },
+            { name: "Skill:", value: skill, inline: true },
             {
               name: "\u200B \u200B",
               value: "\u200B \u200B",
               inline: true,
             },
-            { name: "New Level", value: level, inline: true },
-            { name: "Co-ordinates", value: coords, inline: true },
+            { name: "New Level:", value: level, inline: true },
+            { name: "Co-ordinates:", value: coords, inline: true },
             {
               name: "\u200B \u200B",
               value: "\u200B \u200B",
               inline: true,
             },
-            { name: "Hours Survived", value: hoursSurvived, inline: true }
+            { name: "Hours Survived:", value: hoursSurvived, inline: true }
           )
           .setFooter({ text: timestamp });
 

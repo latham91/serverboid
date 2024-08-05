@@ -2,7 +2,6 @@ import "dotenv/config";
 import fs from "fs";
 import { EmbedBuilder } from "discord.js";
 import { Tail } from "tail";
-import chalk from "chalk";
 
 // Returns the full path of a file
 export function getFullPath(folder, fileName) {
