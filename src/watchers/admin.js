@@ -1,5 +1,6 @@
 import chalk from "chalk";
-import { tailFile, getFullPath, waitForFile, createSimpleEmbed } from "../utils/utils.js";
+import { tailFile, getFullPath, waitForFile, createSimpleEmbed, convertTimestamp, createBtseEmbed } from "../utils/utils.js";
+import { btseLineRegex } from "../utils/regex.js";
 
 export default function watchAdminLog(client) {
   const adminLogPath = getFullPath("logs", "_admin.txt");
@@ -20,8 +21,20 @@ export default function watchAdminLog(client) {
 
       // Send embed message to the discord channel.
       try {
-        const messageEmbed = createSimpleEmbed("Admin Log", line, "#ff0000");
-        await channel.send({ embeds: [messageEmbed] });
+        if (line.includes("[BTSE]")) {
+          const match = line.match(btseLineRegex);
+          const [, timestamp, identifier, steamId, username, action] = match;
+          try {
+            const messageEmbed = createBtseEmbed(username, steamId, action, timestamp);
+
+            await channel.send({ embeds: [messageEmbed] });
+          } catch (error) {
+            console.log(chalk.redBright("Failed to send BTSE log message. ", error));
+          }
+        } else {
+          const messageEmbed = createSimpleEmbed("Admin Log", line, "#ff0000");
+          await channel.send({ embeds: [messageEmbed] });
+        }
       } catch (error) {
         console.log(chalk.redBright("Failed to send admin log message. ", error));
       }

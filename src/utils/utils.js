@@ -47,7 +47,29 @@ export function getChatColors() {
 
 // Create simple discord embed
 export function createSimpleEmbed(title, description, color) {
-  const embed = new EmbedBuilder().setTitle(title).setDescription(description).setColor(color);
+  const validDescription = description && description.trim().length > 0 ? description : "No details provided.";
+  const embed = new EmbedBuilder().setTitle(title).setDescription(validDescription).setColor(color);
+
+  return embed;
+}
+
+export function createBtseEmbed(username, steamId, action, timestamp) {
+  const embed = new EmbedBuilder()
+    .setColor("#ff0000")
+    .setAuthor({
+      name: "Cheater Detected",
+      iconURL:
+        "https://steamuserimages-a.akamaihd.net/ugc/1997944160869537657/97548CF3DB4319BC193CBD278B96F542802C88FE/?imw=268&imh=268&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
+    })
+    .setThumbnail(
+      "https://steamuserimages-a.akamaihd.net/ugc/1997944160869537657/97548CF3DB4319BC193CBD278B96F542802C88FE/?imw=268&imh=268&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+    )
+    .addFields(
+      { name: "Player Name:", value: username, inline: true },
+      { name: "Steam ID:", value: steamId, inline: true },
+      { name: "Action:", value: action },
+      { name: "Date & Time:", value: new Date(convertTimestamp(timestamp)).toString() }
+    );
 
   return embed;
 }
