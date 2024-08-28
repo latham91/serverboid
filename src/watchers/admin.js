@@ -1,15 +1,14 @@
 import chalk from "chalk";
-import { tailFile, getFullPath, waitForFile, createSimpleEmbed, convertTimestamp, createBtseEmbed } from "../utils/utils.js";
+import { tailFile, getFullPath, waitForFile, createSimpleEmbed, createBtseEmbed } from "../utils/utils.js";
 import { btseLineRegex } from "../utils/regex.js";
 
 export default function watchAdminLog(client) {
+  const pathResolver = () => getFullPath("logs", "_admin.txt");
+
   const adminLogPath = getFullPath("logs", "_admin.txt");
   const channelId = process.env.ADMINLOG_CHANNEL_ID;
 
   if (!channelId) return console.log(chalk.redBright("ADMINLOG_CHANNEL_ID is not defined in your environmental variables."));
-
-  // Resolver function that returns the full path of the log file.
-  const pathResolver = () => getFullPath("logs", "_admin.txt");
 
   const start = () => {
     const tail = tailFile(adminLogPath);
@@ -28,6 +27,9 @@ export default function watchAdminLog(client) {
             const messageEmbed = createBtseEmbed(username, steamId, action, timestamp);
 
             await channel.send({ embeds: [messageEmbed] });
+
+            // Handle button interactions
+            console.log(response);
           } catch (error) {
             console.log(chalk.redBright("Failed to send BTSE log message. ", error));
           }

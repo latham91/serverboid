@@ -1,6 +1,5 @@
 import chalk from "chalk";
 import { EmbedBuilder } from "discord.js";
-
 import { convertTimestamp, getFullPath, tailFile, waitForFile } from "../utils/utils.js";
 import { connectionRegex, perkLineRegex } from "../utils/regex.js";
 
@@ -36,8 +35,7 @@ export default function watchPerkLog(client) {
           .setFooter({ text: timestamp });
 
         const channelId = process.env.PERKLOG_CHANNEL_ID;
-        if (!channelId)
-          return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
+        if (!channelId) return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
 
         const channel = await client.channels.fetch(channelId);
         if (!channel) return console.log(chalk.redBright("Failed to get channel with ID: ", channelId));
@@ -57,30 +55,28 @@ export default function watchPerkLog(client) {
         let [, timestamp, steamId, characterName, coords, action, skill, level, hoursSurvived] = parsedLine;
         timestamp = new Date(convertTimestamp(timestamp)).toLocaleString();
 
-        console.log(hoursSurvived);
-
         const messageEmbed = new EmbedBuilder()
           .setColor("#00b4d8")
           .setTitle("📈 Skill Level Changed")
           .addFields(
             { name: "Character:", value: characterName, inline: true },
             {
-              name: "\u200B \u200B",
-              value: "\u200B \u200B",
+              name: "\u200B",
+              value: "\u200B",
               inline: true,
             },
             { name: "Steam ID:", value: steamId, inline: true },
             { name: "Skill:", value: skill, inline: true },
             {
-              name: "\u200B \u200B",
-              value: "\u200B \u200B",
+              name: "\u200B",
+              value: "\u200B",
               inline: true,
             },
             { name: "New Level:", value: level, inline: true },
             { name: "Co-ordinates:", value: coords, inline: true },
             {
-              name: "\u200B \u200B",
-              value: "\u200B \u200B",
+              name: "\u200B",
+              value: "\u200B",
               inline: true,
             },
             { name: "Hours Survived:", value: hoursSurvived, inline: true }
@@ -88,8 +84,7 @@ export default function watchPerkLog(client) {
           .setFooter({ text: timestamp });
 
         const channelId = process.env.PERKLOG_CHANNEL_ID;
-        if (!channelId)
-          return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
+        if (!channelId) return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
 
         const channel = await client.channels.fetch(channelId);
         if (!channel) return console.log(chalk.redBright("Failed to get channel with ID: ", channelId));
