@@ -3,7 +3,8 @@ import chalk from "chalk";
 import { tailFile, getFullPath, getChatColors, createSimpleEmbed, waitForFile, convertTimestamp } from "../utils/utils.js";
 import { chatLineRegex } from "../utils/regex.js";
 
-const excludedWords = ["HEY!", "OVER HERE!", "HEY YOU!", "HEY !", "PAR ICI !", "HEY TOI !"];
+// Spammy words/phrases to exclude from chat log
+const excludedWords = ["HEY!", "OVER HERE!", "HEY YOU!"];
 
 export default function watchChatLog(client) {
   const pathResolver = () => getFullPath("logs", "_chat.txt");
@@ -24,7 +25,7 @@ export default function watchChatLog(client) {
       if (!parsedLine) return console.log(chalk.redBright("Failed to parse chat log line."));
 
       // Destructure the parsed line into variables
-      let [, timestamp, region, author, message] = parsedLine;
+      let [fullLine, timestamp, region, author, message] = parsedLine;
 
       // Skip messages that contain excluded words
       if (excludedWords.some((word) => message.includes(word))) return;

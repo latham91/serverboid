@@ -17,7 +17,7 @@ export default function watchPerkLog(client) {
       if (line.includes("[Login]")) {
         const parsedLine = line.match(connectionRegex);
 
-        let [, timestamp, steamId, characterName, coords, action, hoursSurvived] = parsedLine;
+        let [fullLine, timestamp, steamId, characterName, coords, action, hoursSurvived] = parsedLine;
         timestamp = new Date(convertTimestamp(timestamp)).toLocaleString();
 
         const messageEmbed = new EmbedBuilder()
@@ -35,12 +35,13 @@ export default function watchPerkLog(client) {
           .setFooter({ text: timestamp });
 
         const channelId = process.env.PERKLOG_CHANNEL_ID;
-        if (!channelId) return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
+        if (!channelId)
+          return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
 
         const channel = await client.channels.fetch(channelId);
         if (!channel) return console.log(chalk.redBright("Failed to get channel with ID: ", channelId));
 
-        // Sends embed message to the discord channel
+        // Sends embed message
         try {
           await channel.send({ embeds: [messageEmbed] });
         } catch (error) {
@@ -52,7 +53,7 @@ export default function watchPerkLog(client) {
       if (line.includes("[Level Changed")) {
         const parsedLine = line.match(perkLineRegex);
 
-        let [, timestamp, steamId, characterName, coords, action, skill, level, hoursSurvived] = parsedLine;
+        let [fullLine, timestamp, steamId, characterName, coords, action, skill, level, hoursSurvived] = parsedLine;
         timestamp = new Date(convertTimestamp(timestamp)).toLocaleString();
 
         const messageEmbed = new EmbedBuilder()
@@ -84,7 +85,8 @@ export default function watchPerkLog(client) {
           .setFooter({ text: timestamp });
 
         const channelId = process.env.PERKLOG_CHANNEL_ID;
-        if (!channelId) return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
+        if (!channelId)
+          return console.log(chalk.redBright("PERKLOG_CHANNEL_ID is not defined in your environmental variables."));
 
         const channel = await client.channels.fetch(channelId);
         if (!channel) return console.log(chalk.redBright("Failed to get channel with ID: ", channelId));

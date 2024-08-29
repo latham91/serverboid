@@ -22,7 +22,7 @@ export default function watchAdminLog(client) {
       try {
         if (line.includes("[BTSE]")) {
           const match = line.match(btseLineRegex);
-          const [, timestamp, identifier, steamId, username, action] = match;
+          const [fullLine, timestamp, identifier, steamId, username, action] = match;
           try {
             const messageEmbed = createBtseEmbed(username, steamId, action, timestamp);
 
