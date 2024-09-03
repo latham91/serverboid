@@ -8,7 +8,7 @@ export default (client) => {
   console.log(`${client.user.tag} is online!`);
   console.log(chalk.yellow("Waiting for server to create missing log files..."));
 
-  watchChatLog(client);
-  watchPerkLog(client);
-  watchAdminLog(client);
+  // watchChatLog(client);
+  // watchPerkLog(client);
+  // watchAdminLog(client);
 };
